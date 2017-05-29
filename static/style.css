@@ -1,0 +1,110 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 40px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body * {
+  box-sizing: border-box;
+}
+
+.main {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 960px;
+}
+
+.title {
+  font-size: 40px;
+  line-height: 1;
+  color: black;
+  padding:  30px;
+  border: 3px solid lightblue;
+  margin: 0;
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  padding: 30px;
+  background-color: lightblue;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+  position: relative;
+}
+
+.validate {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: 5px;
+  left: 0;
+  font-size: 14px;
+  color: red;
+}
+
+.input {
+  width: 40%;
+  height: 40px;
+  font-size: 18px;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.input-priority {
+  width: 100px;
+}
+
+.input-description {
+  padding-top: 20px;
+  width: 100%;
+  height: 200px;
+}
+
+.table {
+  width: 100%;
+  border: 3px solid lightblue;
+  padding: 30px;
+}
+
+.head-tr > th,
+.row-tr > td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid black;
+}
+
+.table-name,
+.table-priority {
+  width: 20%;
+}
+
+.table-dec {
+  width: 60%;
+}
+
+.submit {
+  width: auto;
+  height: 40px;
+  font-size: 18px;
+  color: lightblue;
+  background-color: white;
+  padding: 0 20px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 5px 0 black;
+  align-self: flex-end;
+}
+
+.error {
+  box-shadow: 0 0 5px 0 red;
+  border: 1px solid red;
+}

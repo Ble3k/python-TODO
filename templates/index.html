@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TODO list</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous">
+  </script>
+  <script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+</head>
+<body>
+  <main class="main">
+    <h1 class="title">TODO List</h1>
+    <div class="header">
+      <input class="input input-name" type="text" name="name" placeholder="Name">
+      <textarea class="input input-description" type="text" name="description" placeholder="Description"></textarea>
+      <input class="input input-priority" type="text" name="priority" placeholder="Priority">
+      <button class="submit">Add</button>
+      <span class="validate"></span>
+    </div>
+    <table class="table">
+      <thead>
+        <tr class="head-tr">
+          <th class="table-name">Name</th>
+          <th class="table-dec">Description</th>
+          <th class="table-priority">Priority</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+</body>
+</html>

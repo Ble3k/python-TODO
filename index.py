@@ -57,9 +57,10 @@ def start_page():
 @app.route('/tasks', methods=['GET', 'POST'])
 def manipulate_tasks():
 	if request.method == 'POST':
-		name = request.get_json(force=True)['name']
-		description = request.get_json(force=True)['description']
-		priority = request.get_json(force=True)['priority']
+		data = request.get_json(force=True)
+		name = data['name']
+		description = data['description']
+		priority = data['priority']
 
 		dynamic_data_entry(name, description, priority)
 

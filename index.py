@@ -1,7 +1,7 @@
 import time
 import datetime
 
-from flask import Flask, request, render_template, jsonify, json
+from flask import Flask, request, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -25,50 +25,50 @@ class Task(db.Model):
         self.priority = priority
 
     def serialize(self):
-		return {
-    		'date': self.date,
-    		'name': self.name,
-    		'description': self.description,
-    		'priority': self.priority,
-    	}
+        return {
+            'date': self.date,
+            'name': self.name,
+            'description': self.description,
+            'priority': self.priority,
+        }
 
 
 def dynamic_data_entry(name, description, priority):
-	unix = time.time()
-	date = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
+    unix = time.time()
+    date = str(
+        datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S')
+    )
+    task = Task(date, name, description, priority)
 
-	task = Task(date, name, description, priority)
-
-	db.session.add(task)
-	db.session.commit()
+    db.session.add(task)
+    db.session.commit()
 
 
 def read_from_db():
-	return [row.serialize() for row in Task.query.all()]
+    return [row.serialize() for row in Task.query.all()]
 
 
 db.create_all()
 
+
 @app.route('/')
 def start_page():
-	return render_template('/index.html')
+    return render_template('/index.html')
 
 
 @app.route('/tasks', methods=['GET', 'POST'])
 def manipulate_tasks():
-	if request.method == 'POST':
-		data = request.get_json(force=True)
-		name = data['name']
-		description = data['description']
-		priority = data['priority']
+    if request.method == 'POST':
+        data = request.get_json(force=True)
+        name = data['name']
+        description = data['description']
+        priority = data['priority']
+        dynamic_data_entry(name, description, priority)
 
-		dynamic_data_entry(name, description, priority)
-
-		return jsonify(read_from_db())
-	elif request.method == 'GET':
-		return jsonify(read_from_db())
+        return jsonify(read_from_db())
+    elif request.method == 'GET':
+        return jsonify(read_from_db())
 
 
 if __name__ == '__main__':
-	app.run(debug=True)
-
+    app.run(debug=True)

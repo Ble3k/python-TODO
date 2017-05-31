@@ -9,33 +9,47 @@ $(document).ready(function () {
 
   var endpoint = '/tasks'
 
-  var callApi = function (method, endpoint, data, onSuccess, onError) {
+  var callApi = function (method, endpoint, data, onError) {
+    var recursive = true
+    if (method === 'POST') recursive = false
+
     $.ajax({
       type: method,
       url: endpoint,
-      data,
-      success: onSuccess,
-      error: onError,
+      data: data,
+      success: function (rows) {
+        var promise = new Promise(function (res) {
+          var tableBody = $('<tbody></tbody>')
+
+          rows
+            .sort(function (a, b) { return b.priority - a.priority })
+            .forEach(function (item) {
+              tableBody.append($(
+                '<tr class="row-tr">' +
+                '<td>' + item.name + '</td>' +
+                '<td>' + item.description + '</td>' +
+                '<td>' + item.priority + '</td>' +
+                '</tr>'
+              ))
+            })
+
+          table.children('tbody').replaceWith(tableBody)
+          res()
+
+          return promise
+        })
+
+        if (recursive) {
+          setTimeout(function () {
+            promise
+              .then(function () {
+                callApi('GET', endpoint, {}, errorCb)
+              })
+          }, 3000)
+        }
+      },
+      error: onError
     });
-  }
-
-  var renderRows = function (rows) {
-    var tableBody = $('<tbody></tbody>')
-
-    rows
-      .sort(function (a, b) { return b.priority - a.priority })
-      .forEach(function (item) {
-        tableBody.append($(
-          '<tr class="row-tr">' +
-            '<td>' + item.name + '</td>' +
-            '<td>' + item.description + '</td>' +
-            '<td>' + item.priority + '</td>' +
-          '</tr>'
-        ))
-      })
-
-    table.children('tbody').replaceWith(tableBody)
-    input.val(undefined)
   }
 
   var errorCb = function (error) { console.warn(error, 'oops, request fail') }
@@ -56,9 +70,9 @@ $(document).ready(function () {
           description: descriptionInput.val(),
           priority: priorityInput.val()
         }),
-        renderRows,
-        errorCb,
+        errorCb
       )
+      input.val(undefined)
     } else {
       validate.html('Every field is required!')
       input.each(function (key, elem) {
@@ -72,6 +86,6 @@ $(document).ready(function () {
     input.removeClass('error')
   })
 
-  callApi('GET', endpoint, {}, renderRows, errorCb)
+  callApi('GET', endpoint, {}, errorCb)
 
 })
